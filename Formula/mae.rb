@@ -1,17 +1,17 @@
 class Mae < Formula
   desc "AI-native lisp machine editor — successor to GNU Emacs"
   homepage "https://github.com/cuttlefisch/mae"
-  version "0.13.9"
+  version "0.13.10"
   license "GPL-3.0-or-later"
 
   on_macos do
     url "https://github.com/cuttlefisch/mae/releases/download/v#{version}/mae-macos-aarch64.tar.gz"
-    sha256 "37eac5912640c42337fb786fbfc5db8dab312eff53578d98e0c8f1b181cd4fd4"
+    sha256 "6441af185a24546f4ff3bace848fc66e81dadd971c6753d32e9a30593a01d8c5"
   end
 
   on_linux do
     url "https://github.com/cuttlefisch/mae/releases/download/v#{version}/mae-linux-x86_64.tar.gz"
-    sha256 "7988389e153f816898006c68112fe3feb9425c6e90b59404d237026e358b7066"
+    sha256 "860563bd4f03d6a3afc8df34d6cd6046363d066e63ed4f4f7ace1bc0e4886d41"
   end
 
   def install
