@@ -5,13 +5,17 @@ class Mae < Formula
   license "GPL-3.0-or-later"
 
   on_macos do
-    url "https://github.com/cuttlefisch/mae/releases/download/v#{version}/mae-macos-aarch64.tar.gz"
-    sha256 "eee66f6ebc457561a9dcee2f3af1fa89438c7293b60f2a25c25f6f9172bcabd2"
+    on_arm do
+      url "https://github.com/cuttlefisch/mae/releases/download/v#{version}/mae-macos-aarch64.tar.gz"
+      sha256 "eee66f6ebc457561a9dcee2f3af1fa89438c7293b60f2a25c25f6f9172bcabd2"
+    end
   end
 
   on_linux do
-    url "https://github.com/cuttlefisch/mae/releases/download/v#{version}/mae-linux-x86_64.tar.gz"
-    sha256 "fd6286e96c4b3b1610c6ee0536fa851e64ce8c053d4d305760cfa47886c5ad12"
+    on_intel do
+      url "https://github.com/cuttlefisch/mae/releases/download/v#{version}/mae-linux-x86_64.tar.gz"
+      sha256 "fd6286e96c4b3b1610c6ee0536fa851e64ce8c053d4d305760cfa47886c5ad12"
+    end
   end
 
   def install
@@ -29,13 +33,7 @@ class Mae < Formula
     (etc/"mae").install "daemon-config.toml" => "daemon.toml.sample"
 
     # SHA checksum for runtime validation
-    if File.exist?("mae-manual.cozo.sha256")
-      (share/"mae").install "mae-manual.cozo.sha256"
-    end
-  end
-
-  def post_install
-    (var/"log/mae").mkpath
+    (share/"mae").install "mae-manual.cozo.sha256" if File.exist?("mae-manual.cozo.sha256")
   end
 
   service do

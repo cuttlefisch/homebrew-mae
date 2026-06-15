@@ -8,6 +8,7 @@ cask "mae-app" do
   homepage "https://github.com/cuttlefisch/mae"
 
   depends_on formula: "cuttlefisch/mae/mae"
+  depends_on :macos
 
   app "MAE.app"
 
@@ -15,7 +16,7 @@ cask "mae-app" do
     system_command "/usr/bin/xattr",
                    args: ["-cr", "#{appdir}/MAE.app"],
                    sudo: false
-  rescue StandardError
+  rescue
     # Quarantine attribute may not exist
   end
 

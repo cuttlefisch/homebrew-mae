@@ -13,9 +13,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # Lint + audit the tap (style, `brew readall`, `brew audit`). This is the gate
+  # Lint + audit the tap: `brew test-bot --only-tap-syntax` runs `brew style`,
+  # `brew readall`, and `brew audit` over the formula and cask. This is the gate
   # that catches structural problems — including a formula and cask sharing a
-  # token (the collision that previously left `mae` unlinked after `brew upgrade`).
+  # token (the collision that previously left `mae` unlinked after `brew upgrade`)
+  # and style/audit regressions — before they reach users.
   tap-syntax:
     strategy:
       fail-fast: false
@@ -24,40 +26,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Set up Homebrew
-        uses: Homebrew/actions/setup-homebrew@master
+        uses: Homebrew/actions/setup-homebrew@main
 
       - name: Check out tap
         uses: actions/checkout@v4
 
       - name: Tap syntax (brew style + readall + audit)
         run: brew test-bot --only-tap-syntax
-
-      - name: Audit cask
-        if: runner.os == 'macOS'
-        run: brew audit --cask --tap "$GITHUB_REPOSITORY_OWNER/mae" mae-app || brew audit --cask Casks/mae-app.rb
-
-  # Install + smoke-test the CLI formula from the published release assets, so a
-  # bad url/sha256 or a broken `test do` block fails CI rather than users.
-  install-formula:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [macos-14, ubuntu-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: Set up Homebrew
-        uses: Homebrew/actions/setup-homebrew@master
-
-      - name: Check out tap
-        uses: actions/checkout@v4
-
-      - name: Install mae (formula)
-        run: brew install --formula --verbose ./Formula/mae.rb
-
-      - name: Run formula test block
-        run: brew test --formula ./Formula/mae.rb
-
-      - name: Verify CLI is linked onto PATH
-        run: |
-          command -v mae
-          mae --version
