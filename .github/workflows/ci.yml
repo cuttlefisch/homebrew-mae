@@ -18,25 +18,24 @@ jobs:
       fail-fast: false
       matrix:
         # One runner per shipped target: macOS = aarch64, Linux = x86_64.
-        # (MAE ships only those two assets, so a `readall --arch=all` across
+        # (MAE ships only those two assets, so `readall --arch=all` across
         # macOS-Intel / Linux-ARM is intentionally NOT used — those platforms
         # legitimately have no URL.)
         os: [macos-14, ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
+      - name: Check out tap
+        uses: actions/checkout@v4
+
       - name: Set up Homebrew
         uses: Homebrew/actions/setup-homebrew@main
 
-      - name: Check out tap
-        uses: actions/checkout@v4
-        with:
-          path: homebrew-mae
-
-      - name: Tap from the checkout
+      - name: Point the cuttlefisch/mae tap at this checkout
         run: |
-          taps="$(brew --repository)/Library/Taps/cuttlefisch"
-          mkdir -p "$taps"
-          ln -s "$GITHUB_WORKSPACE/homebrew-mae" "$taps/homebrew-mae"
+          dest="$(brew --repository)/Library/Taps/cuttlefisch/homebrew-mae"
+          rm -rf "$dest"
+          mkdir -p "$(dirname "$dest")"
+          ln -s "$GITHUB_WORKSPACE" "$dest"
           brew tap
 
       # Style covers BOTH the formula and the cask — the gate that catches a
