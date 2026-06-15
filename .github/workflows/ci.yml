@@ -55,7 +55,7 @@ jobs:
       # url/sha256 or the link regression that motivated this work).
       - name: Install + smoke-test the mae formula
         run: |
-          brew install --formula cuttlefisch/mae/mae
+          brew install cuttlefisch/mae/mae
           command -v mae
           mae --version
-          brew test --formula cuttlefisch/mae/mae
+          brew test cuttlefisch/mae/mae
