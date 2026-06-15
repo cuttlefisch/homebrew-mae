@@ -40,13 +40,15 @@ jobs:
 
       # Style covers BOTH the formula and the cask — the gate that catches a
       # formula/cask token collision and style/convention regressions.
+      #
+      # NOTE: `brew readall` is intentionally NOT run. It validates the formula
+      # against every platform symbol (macOS-Intel versions, arm64_linux, …), but
+      # MAE ships only macos-aarch64 + linux-x86_64, so those platforms correctly
+      # have no URL in the (style-required) arch-nested blocks. The per-runner
+      # install smoke below is the meaningful load+resolve check for the two
+      # platforms we actually ship.
       - name: brew style
         run: brew style cuttlefisch/mae
-
-      # readall on the runner's own platform (no --arch=all): proves the formula
-      # + cask load and that this platform resolves a URL.
-      - name: brew readall
-        run: brew readall cuttlefisch/mae
 
       # Install + smoke-test the CLI formula from the published release asset for
       # this runner's arch, and verify it actually links onto PATH (catches a bad
