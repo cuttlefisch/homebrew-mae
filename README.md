@@ -12,7 +12,7 @@ brew install mae
 ## GUI (optional)
 
 ```bash
-brew install --cask mae
+brew install --cask mae-app
 ```
 
 ## Background daemon
@@ -31,6 +31,6 @@ brew upgrade mae
 
 ```bash
 brew uninstall mae
-brew uninstall --cask mae   # if GUI installed
+brew uninstall --cask mae-app   # if GUI installed
 brew untap cuttlefisch/mae
 ```
