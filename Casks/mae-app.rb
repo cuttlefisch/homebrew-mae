@@ -1,6 +1,6 @@
 cask "mae-app" do
-  version "0.14.94"
-  sha256 "ec5cbbb313d5f332df6de529fba6c4f88a381f4bd79876884756726b181f4651"
+  version "0.14.95"
+  sha256 "9995b1d7fa2617aaba19bf52b9065a5a55c38114ed59b089c2f8be83ee7aac88"
 
   url "https://github.com/cuttlefisch/mae/releases/download/v#{version}/MAE-macos-aarch64.zip"
   name "MAE - Modern AI Editor"
