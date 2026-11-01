@@ -25,15 +25,11 @@ class Mae < Formula
     bin.install "mae-daemon"
 
     # Data files (read-only, versioned with formula)
-    (share/"mae").install "mae-manual.cozo"
     (share/"mae").install "modules"
 
     # Config templates (etc persists across upgrades)
     (etc/"mae").install "sample-config.toml" => "config.toml.sample"
     (etc/"mae").install "daemon-config.toml" => "daemon.toml.sample"
-
-    # SHA checksum for runtime validation
-    (share/"mae").install "mae-manual.cozo.sha256" if File.exist?("mae-manual.cozo.sha256")
   end
 
   service do
@@ -57,8 +53,8 @@ class Mae < Formula
         cp #{etc}/mae/config.toml.sample ~/.config/mae/config.toml
         cp #{etc}/mae/daemon.toml.sample ~/.config/mae/daemon.toml
 
-      Manual KB (860+ help nodes) installed to:
-        #{share}/mae/mae-manual.cozo
+      The built-in manual and practices KBs are compiled into mae and
+      built under ~/.cache/mae on first run (no separate data file).
 
       Get started:
         mae file.rs          # GUI mode
