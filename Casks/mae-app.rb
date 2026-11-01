@@ -12,17 +12,14 @@ cask "mae-app" do
 
   app "MAE.app"
 
-  postflight do
-    system_command "/usr/bin/xattr",
-                   args: ["-cr", "#{appdir}/MAE.app"],
-                   sudo: false
-  rescue
-    # Quarantine attribute may not exist
-  end
-
   zap trash: [
     "~/Library/LaunchAgents/com.cuttlefisch.mae-daemon.plist",
     "~/Library/Logs/mae",
     "~/Library/Saved Application State/com.cuttlefisch.mae.savedState",
   ]
+
+  caveats <<~EOS
+    MAE.app is not notarized. If macOS refuses to open it, reinstall with:
+      brew reinstall --cask --no-quarantine cuttlefisch/mae/mae-app
+  EOS
 end
